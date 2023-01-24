@@ -19,7 +19,7 @@ class CommandRunner
     {
         try {
             if (!isset($argv[1])) {
-                echo $this->listAvailableCommands();
+                $this->listAvailableCommands();
 
                 die;
             }
@@ -39,18 +39,16 @@ class CommandRunner
     /**
      * @throws Exception\CommandNotFoundException
      */
-    public function listAvailableCommands(): string
+    public function listAvailableCommands(): void
     {
-        $result = "List of available commands:\n";
+        echo "List of available commands:\n";
 
         foreach ($this->classMap->getAvailableCommandNames() as $commandName) {
             $className = $this->classMap->getClassName($commandName);
             /** @var BaseCommand $command */
             $command = new $className();
 
-            $result .= '    -  ' . $command->getName() . "  (" . $command->getDescription() . ')' . "\n";
+            echo '    -  ' . $command->getName() . "  (" . $command->getDescription() . ')' . "\n";
         }
-
-        return $result;
     }
 }
